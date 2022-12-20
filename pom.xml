@@ -15,5 +15,10 @@
 	
 	<modules>
 		<module>chapter03</module>
+		<module>practice01</module>
 	</modules>
+	
+	<build>
+	  <finalName>chapter03</finalName>
+    </build>
 </project>
