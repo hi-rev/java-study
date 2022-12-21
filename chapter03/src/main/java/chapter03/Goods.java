@@ -1,10 +1,20 @@
 package chapter03;
 
 public class Goods {
+	public static int countOfGoods = 0;
+	
 	private String name;
 	private int price;
 	private int countStock;
 	private int countSold;
+	
+	public Goods() {
+		countOfGoods += 1;
+	}
+	
+	public int calcDiscountPrice(float discountRate) {
+		return (int)(price*discountRate);
+	}
 	
 	public void printInfo() {
 		System.out.println(name + ":" + price + ":" + countStock + ":" + countSold);

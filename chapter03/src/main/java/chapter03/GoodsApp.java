@@ -3,13 +3,21 @@ package chapter03;
 public class GoodsApp {
 
 	public static void main(String[] args) {
-		Goods camera = new Goods();
+		Goods camera = new Goods(); // countOfGoods = 1
 		camera.setName("nikon");
 		camera.setPrice(400000);
 		camera.setCountStock(30);
 		camera.setCountSold(50);
-		
 		camera.printInfo();
+		
+		// 정보은닉(데이터 보호)
+		camera.setPrice(-1);
+		Goods goods2 = new Goods(); // countOfGoods = 2
+		Goods goods3 = new Goods(); // countOfGoods = 3
+		System.out.println(Goods.countOfGoods);
+		
+		camera.setPrice(4000000);
+		System.out.println(camera.calcDiscountPrice(0.5f));
 	}
 	
 	// main문을 실행하면 어떻게 되는가?
