@@ -18,6 +18,9 @@ public class GoodsApp {
 		
 		camera.setPrice(4000000);
 		System.out.println(camera.calcDiscountPrice(0.5f));
+		
+		Goods tv = new Goods();
+		tv.printInfo();
 	}
 	
 	// main문을 실행하면 어떻게 되는가?
