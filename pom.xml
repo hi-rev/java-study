@@ -16,6 +16,7 @@
 	<modules>
 		<module>chapter03</module>
 		<module>practice01</module>
+		<module>practice03</module>
 	</modules>
 	
 	<build>
