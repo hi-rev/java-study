@@ -31,11 +31,7 @@ public class MyStack {
 	}
 
 	public boolean isEmpty() { // isEmpty: 비어있는지 검증
-		if (idx == 0) {
-			return true;
-		} else {
-			return false;
-		}
+			return idx == 0;
 	}
 
 	public String[] getBuffer() {
