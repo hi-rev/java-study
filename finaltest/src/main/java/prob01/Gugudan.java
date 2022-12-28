@@ -1,13 +1,27 @@
 package prob01;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 public class Gugudan {
 	private int lValue;
 	private int rValue;
 	
+	public int getlValue() {
+		return lValue;
+	}
+
+	public void setlValue(int lValue) {
+		this.lValue = lValue;
+	}
+
+	public int getrValue() {
+		return rValue;
+	}
+
+	public void setrValue(int rValue) {
+		this.rValue = rValue;
+	}
+
 	public Gugudan(int lValue, int rValue) {
 		this.lValue = lValue;
 		this.rValue = rValue;
@@ -15,7 +29,7 @@ public class Gugudan {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(lValue, rValue);
+		return Objects.hash(lValue*rValue);
 	}
 
 	// 본래 Java에서 equals 메소드는 동등성 비교를 위한 것
@@ -29,7 +43,7 @@ public class Gugudan {
 		if (getClass() != obj.getClass())
 			return false;
 		Gugudan other = (Gugudan) obj;
-		return lValue * other.rValue == rValue * other.lValue;
+		return lValue * rValue == other.rValue * other.lValue;
 	}
 	
 	@Override
