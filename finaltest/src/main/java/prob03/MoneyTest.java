@@ -7,7 +7,8 @@ public class MoneyTest {
 		Money two = new Money(2);
 		Money three = new Money(3);
 		Money ten = new Money(10);
-
+		
+		// equals 메서드 재정의
 		if (five.equals(two.add(three))
 				&& three.equals(five.minus(two))
 				&& ten.equals(five.multiply(two))
