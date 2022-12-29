@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -108,14 +109,34 @@ public class RequestHandler extends Thread {
 		outputStream.write(body);
 	}
 
-	private void response404Error(OutputStream outputStream, String protocol) {
+	private void response404Error(OutputStream outputStream, String protocol) throws IOException {
+		File file = new File(DOCUMENT_ROOT + "/error/404.html");
+		
+		byte[] body = Files.readAllBytes(file.toPath());
+		String contentType = Files.probeContentType(file.toPath());
+		
+		outputStream.write((protocol + " 200 OK\r\n").getBytes("UTF-8"));
+		outputStream.write(("Content-Type:" + contentType + "; charset=utf-8\r\n").getBytes("UTF-8"));
+		outputStream.write("\r\n".getBytes() );
+		outputStream.write(body);
+		
 		// HTTP/1.1 404 Not Found 
 		// Content-Type:...... 
 		// \r\n
 		// .......
 	}
 	
-	private void response400Resource(OutputStream outputStream, String string) {
+	private void response400Resource(OutputStream outputStream, String protocol) throws UnsupportedEncodingException, IOException {
+		File file = new File(DOCUMENT_ROOT + "/error/400.html");
+		
+		byte[] body = Files.readAllBytes(file.toPath());
+		String contentType = Files.probeContentType(file.toPath());
+		
+		outputStream.write((protocol + " 200 OK\r\n").getBytes("UTF-8"));
+		outputStream.write(("Content-Type:" + contentType + "; charset=utf-8\r\n").getBytes("UTF-8"));
+		outputStream.write("\r\n".getBytes() );
+		outputStream.write(body);
+		
 		// HTTP/1.1 400 Bad Request 
 		// Content-Type:...... 
 		// \r\n
