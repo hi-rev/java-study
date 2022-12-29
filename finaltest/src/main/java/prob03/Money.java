@@ -1,5 +1,7 @@
 package prob03;
 
+import java.util.Objects;
+
 public class Money {
 	private int amount;
 	
