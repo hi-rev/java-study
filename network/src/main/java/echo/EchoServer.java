@@ -18,7 +18,7 @@ public class EchoServer {
 	public static void main(String[] args) {
 		ServerSocket serverSocket = null;
 		
-		try {
+		try { // ** 어느 부분을 Thread로 태워야할까?
 			serverSocket = new ServerSocket();
 			
 			serverSocket.bind(new InetSocketAddress("0.0.0.0", 8000), 10);
