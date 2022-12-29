@@ -71,3 +71,5 @@ equals() 또한 amount를 비교하도록 재정의 해주면 된다!
 [Reference]
 
 - https://jisooo.tistory.com/entry/java-hashcode%EC%99%80-equals-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%EC%96%B8%EC%A0%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B3%A0-%EC%99%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EA%B9%8C
+
+- https://tecoble.techcourse.co.kr/post/2020-07-29-equals-and-hashCode/
