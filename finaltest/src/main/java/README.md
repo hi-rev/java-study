@@ -1,6 +1,6 @@
 ## hashCode와 equals 재정의
 
-#### Java hash code란?
+### Java hash code란?
 
 Object의 **hashCode()** 메소드는 객체의 메모리 번지를 이용해서 해시 코드를 만들어 리턴한다.
 따라서 객체의 메모리 번지를 이용해서 해시코드를 만들어 리턴하기 때문에 해시코드는 객체마다 다른 값을 가지고 있다. 
@@ -9,7 +9,7 @@ Collection의 ``HashSet, HashMap, HashTable`` 은 다음과 같은 과정을 통
 1. **hashCode()** 메소드를 실행하서 리턴된 해시 값이 같은지 본다.
 2. 해시 코드 값이 같다면 **equals()** 메소드로 다시 비교한다.
 
-#### ``prob01``
+### ``prob01``
 
 ``GugudanApp.java``에서 선언한 **Set의 타입**이 **Gugudan 객체**이기 때문에, Gugudan의 hashCode와 equals 메소드 재정의를 통해 원하는 답에 도달할 수 있다. 
 
@@ -42,7 +42,7 @@ Collection의 ``HashSet, HashMap, HashTable`` 은 다음과 같은 과정을 통
 
 이렇게 재정의 하면, 객체에 파라미터로 들어온 두 값의 곱이 같을때 HahSet에서 중복이 제거될 수 있다.
 
-#### prob03
+### ``prob03``
 ``MoneyTest.java``는 앞서 prob01과 마찬가지로 equals 메서드 재정의를 통해 해결할 수 있다. 객체의 amount 변수의 값이 동일해야 하기 때문에, 객체의 amount 값을 비교하도록 재정의 해주었다.
 
 ```
