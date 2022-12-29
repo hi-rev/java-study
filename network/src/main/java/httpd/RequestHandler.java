@@ -51,7 +51,7 @@ public class RequestHandler extends Thread {
 			}
 			
 			// 요청 처리
-//			consoleLog(request);
+			consoleLog(request);
 			String[] tokens = request.split(" ");
 			if ("GET".equals(tokens[0])) {
 				consoleLog(request);
@@ -60,7 +60,7 @@ public class RequestHandler extends Thread {
 				// methods: POST, PUT, DELETE, HEAD, CONNECT
 				// SimpleHttpServer 에서는 무시(400 Bad Request)
 				// 과제 response400Resourse 구현
-				// response400Resource(outputStream, tokens[2]);
+				response400Resource(outputStream, tokens[2]);
 			}
 			
 			// 예제 응답입니다.
@@ -91,18 +91,37 @@ public class RequestHandler extends Thread {
 			url = "/index.html";
 		}
 		
-		File file = new File("./webapp" + url);
+		File file = new File(DOCUMENT_ROOT + url);
+		if (!file.exists()) {
+			response404Error(outputStream, protocol);
+			return;
+		}
 		
 		// nio
 		byte[] body = Files.readAllBytes(file.toPath());
 		String contentType = Files.probeContentType(file.toPath());
 		
 		// 응답
-		outputStream.write("HTTP/1.1 200 OK\r\n".getBytes("UTF-8"));
+		outputStream.write((protocol + " 200 OK\r\n").getBytes("UTF-8"));
 		outputStream.write(("Content-Type:" + contentType + "; charset=utf-8\r\n").getBytes("UTF-8"));
 		outputStream.write("\r\n".getBytes() );
 		outputStream.write(body);
 	}
+
+	private void response404Error(OutputStream outputStream, String protocol) {
+		// HTTP/1.1 404 Not Found 
+		// Content-Type:...... 
+		// \r\n
+		// .......
+	}
+	
+	private void response400Resource(OutputStream outputStream, String string) {
+		// HTTP/1.1 400 Bad Request 
+		// Content-Type:...... 
+		// \r\n
+		// .......
+	}
+
 
 	public void consoleLog( String message ) {
 		System.out.println( "[httpd#" + getId() + "] " + message );
