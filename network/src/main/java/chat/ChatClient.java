@@ -40,7 +40,7 @@ public class ChatClient {
 			
 			// 7. 키보드 입력 처리
 			while (true) {
-				System.out.println(" >> ");
+				System.out.print(" >> ");
 				String input = sc.nextLine();
 				
 				if ("quit".equals(input)) {
@@ -48,7 +48,7 @@ public class ChatClient {
 					break;
 				} else {
 					// 9. 메시지 처리
-					pw.println(input);
+					pw.println(nickname + ":" + input);
 				}
 			}
 		} catch (IOException e) {
