@@ -59,7 +59,7 @@ public class ChatServerThread3 extends Thread {
 		}
 			
 		} catch (SocketException e) {
-			System.out.println("클라이언트로부터 연결 끊");
+			System.out.println("클라이언트로부터 연결 끊김");
 			doQuit(pw);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -86,7 +86,7 @@ public class ChatServerThread3 extends Thread {
 		/* writer pool에 저장 */
 		addWriter(pw);
 		// ack
-		pw.println("join:ok");
+		pw.println("즐거운 채팅 되세요!");
 		
 	}
 	
@@ -106,12 +106,13 @@ public class ChatServerThread3 extends Thread {
 	}
 
 	private void doMessage(String data) {
-		broadcast(data);
+		String line = nickName + ": " + data;
+		broadcast(line);
+		System.out.println(nickName + ": " + data);
 	}
 	
 	private void doQuit(Writer writer) {
 		removeWriter(writer);
-		
 		String data = nickName + "님이 퇴장하였습니다.";
 		broadcast(data);
 	}
