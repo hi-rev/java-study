@@ -35,9 +35,9 @@ public class EchoClient {
 				if ("exit".equals(line)) {
 					break;
 				}
-				pw.println(line);
-				
-				String data = br.readLine();
+				pw.println("line이 뭐냐 " + line);
+				////
+				String data = br.readLine(); // line이 뭐냐 hello
 				if (data == null) {
 					System.out.println("closed by server");
 					break;

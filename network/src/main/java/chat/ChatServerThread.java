@@ -47,6 +47,7 @@ public class ChatServerThread extends Thread {
 				
 				// 4. 프로토콜 분석
 				String[] tokens = request.split(":");
+				System.out.println(tokens);
 				if ("join".equals(tokens[0])) {
 					doJoin(tokens[1], pw);
 				} else if ("message".equals(tokens[0])) {
@@ -56,6 +57,7 @@ public class ChatServerThread extends Thread {
 				} else {
 					log("error: 알 수 없는 요청(" + tokens[0] + ")");
 				}
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

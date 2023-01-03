@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import test03.ChatServerThread3;
+
 public class ChatServer {
 	public static final int PORT = 8080;
 
@@ -26,13 +28,14 @@ public class ChatServer {
 			// 특정 IP Address와 Port에 binding
 			String hostAddress = InetAddress.getLocalHost().getHostAddress();
 			serverSocket.bind(new InetSocketAddress(hostAddress, PORT), 10);
+			System.out.println("[server] connect");
 			
 			// 3. accpet - 요청 대기
 			while (true) {
 				socket = serverSocket.accept(); // blocking
 				// 요청이 수락하고 스레드를 생성할 때, List 객체를 스레드의 생성자를 통해 전달한다.
 				// 데이터 통신 Thread들이 listWriters를 공유하기 때문에 객체로 넘겨준다.
-				new ChatServerThread(socket, listWriters).start();
+				new ChatServerThread3(socket, listWriters).start();
 			}
 			
 		} catch (IOException e) {

@@ -40,7 +40,7 @@ public class EchoThread extends Thread {
 				break;
 			}
 			
-//			System.out.println("received: " + data);
+			System.out.println("data가 뭐냐 " + data);
 			pw.println(data);
 			
 			}
