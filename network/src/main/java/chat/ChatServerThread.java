@@ -5,16 +5,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class ChatServerThread extends Thread {
-	private String nickname;
+	private String nickName;
 	private Socket socket;
-	private List<Writer> listWriters = null;
+	private List<Writer> listWriters;
 	private PrintWriter pw = null;
 	
 	public ChatServerThread(Socket socket, List<Writer> listWriters) {
@@ -29,7 +31,7 @@ public class ChatServerThread extends Thread {
 			InetSocketAddress inetRemoteSocketAddress = (InetSocketAddress)socket.getRemoteSocketAddress();
 			String remoteHostAddress = inetRemoteSocketAddress.getAddress().getHostAddress();
 			int remoteport = inetRemoteSocketAddress.getPort();
-			log("connected by client[ " + remoteHostAddress + " : " + remoteport + " ]");
+			System.out.println("connected by client[ " + remoteHostAddress + " : " + remoteport + " ]");
 			
 			// 2. 스트림 얻기(입출력)
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
@@ -37,17 +39,15 @@ public class ChatServerThread extends Thread {
 			
 			// 3. 요청 처리
 			while (true) {
-				String request = br.readLine();
-				log(request);
-				if (request == null) {
-					log("클라이언트로부터 연결 끊김");
-					doQuit(pw);
+				String data = br.readLine();
+				
+				if (data == null) {
+					System.out.println("[server] closed by client");
 					break;
 				}
 				
 				// 4. 프로토콜 분석
-				String[] tokens = request.split(":");
-				System.out.println(tokens);
+				String[] tokens = data.split(":");
 				if ("join".equals(tokens[0])) {
 					doJoin(tokens[1], pw);
 				} else if ("message".equals(tokens[0])) {
@@ -55,10 +55,14 @@ public class ChatServerThread extends Thread {
 				} else if ("quit".equals(tokens[0])) {
 					doQuit(pw);
 				} else {
-					log("error: 알 수 없는 요청(" + tokens[0] + ")");
+					System.out.println("[server] 에러: 알 수 없는 요청 (" + tokens[0] + ")");
 				}
-				
 			}
+		} catch (SocketException e) {
+			System.out.println("[server] closed by client");
+			doQuit(pw);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 			doQuit(pw);
@@ -68,7 +72,7 @@ public class ChatServerThread extends Thread {
 	// doJoin은 한 사용자가 채팅방에 참여 했을 때, 다른 사용자들에게 "~님이 입장하셨습니다."
 	// 라는 메세지를 브로드캐스팅해야한다.
 	private void doJoin(String nickName, Writer writer) {
-		this.nickname = nickName;
+		this.nickName = nickName;
 		
 		String data = nickName + "님이 참여하였습니다.";
 		broadcast(data);
@@ -76,8 +80,7 @@ public class ChatServerThread extends Thread {
 		// writer pool에 저장
 		addWriter(writer);
 	
-		// ack
-		pw.println("join:ok");
+		pw.println("즐거운 채팅 되세요!");
 	}
 	
 	// List인 listWriters에 파라미터로 받은 Writer를 추가한다.
@@ -101,7 +104,8 @@ public class ChatServerThread extends Thread {
 	// message 프로토콜 구현
 	private void doMessage(String message) {
 		synchronized(listWriters) { // 동기화
-			broadcast(nickname + ": " + message);
+			broadcast(nickName + ": " + message);
+			System.out.println(nickName + ": " + message);
 		}
 	}
 	
@@ -110,8 +114,7 @@ public class ChatServerThread extends Thread {
 	private void doQuit(Writer writer) {
 		synchronized(listWriters) { // 동기화
 			removeWriter(writer);
-			String data = nickname + "님이 퇴장하였습니다.";
-			broadcast(data);
+			broadcast(nickName + "님이 퇴장하였습니다.");
 		}
 	}
 
@@ -120,9 +123,4 @@ public class ChatServerThread extends Thread {
 			listWriters.remove(writer);
 		}
 	}
-	
-	private static void log(String m) {
-		System.out.println("[server] " + m);
-	}
-
 }
