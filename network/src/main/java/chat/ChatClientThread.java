@@ -27,6 +27,8 @@ public class ChatClientThread extends Thread {
 			// reader를 통해 읽은 데이터 콘솔에 출력하기 (message 처리)
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 			
+			System.out.println("즐거운 채팅 되세요!");
+			
 			while(true) {
 				String data = br.readLine();
 				System.out.println(data);
@@ -41,8 +43,9 @@ public class ChatClientThread extends Thread {
 			e.printStackTrace();
 		}finally {
 			try {
-				if(br != null )
+				if(br != null) {
 					br.close();
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

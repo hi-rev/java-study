@@ -43,6 +43,7 @@ public class ChatServerThread extends Thread {
 				
 				if (data == null) {
 					System.out.println("[server] closed by client");
+					doQuit(pw);
 					break;
 				}
 				
@@ -54,6 +55,7 @@ public class ChatServerThread extends Thread {
 					doMessage(tokens[1]);
 				} else if ("quit".equals(tokens[0])) {
 					doQuit(pw);
+					break;
 				} else {
 					System.out.println("[server] 에러: 알 수 없는 요청 (" + tokens[0] + ")");
 				}
@@ -64,8 +66,15 @@ public class ChatServerThread extends Thread {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-			doQuit(pw);
+			System.out.println("error: " + e);
+		} finally {
+			if (socket != null && !socket.isClosed()) {
+				try {
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
@@ -79,8 +88,6 @@ public class ChatServerThread extends Thread {
 		
 		// writer pool에 저장
 		addWriter(writer);
-	
-		pw.println("즐거운 채팅 되세요!");
 	}
 	
 	// List인 listWriters에 파라미터로 받은 Writer를 추가한다.
@@ -95,7 +102,7 @@ public class ChatServerThread extends Thread {
 	private void broadcast(String data) {
 		synchronized(listWriters) {
 			for (Writer writer : listWriters) {
-				pw = (PrintWriter) writer;
+				PrintWriter pw = (PrintWriter) writer;
 				pw.println(data);
 			}
 		}
@@ -103,19 +110,15 @@ public class ChatServerThread extends Thread {
 	
 	// message 프로토콜 구현
 	private void doMessage(String message) {
-		synchronized(listWriters) { // 동기화
-			broadcast(nickName + ": " + message);
-			System.out.println(nickName + ": " + message);
-		}
+		broadcast(nickName + ": " + message);
+		System.out.println(nickName + ": " + message);
 	}
 	
 	// ~님이 퇴장하였습니다. 메시지가 브로드캐스팅 되어야 한다.
 	// 현재 스레드의 writer를 Writer Pool에서 제거한 후, 브로드캐스팅한다.
 	private void doQuit(Writer writer) {
-		synchronized(listWriters) { // 동기화
-			removeWriter(writer);
-			broadcast(nickName + "님이 퇴장하였습니다.");
-		}
+		removeWriter(writer);
+		broadcast(nickName + "님이 퇴장하였습니다.");
 	}
 
 	private void removeWriter(Writer writer) {

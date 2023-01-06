@@ -33,14 +33,13 @@ public class ChatClient {
 			// 5. join 프로토콜
 			System.out.print("닉네임 >> ");
 			String nickName = sc.nextLine();
-			pw.println("join: " + nickName);
+			pw.println("join:" + nickName);
 			
 			// 6. ChatClientReceiveThread 시작
 			new ChatClientThread(socket).start();
 			
 			// 7. 키보드 입력 처리
 			while (true) {
-				System.out.print(" >> ");
 				String input = sc.nextLine();
 				
 				if ("quit".equals(input)) {
@@ -58,6 +57,7 @@ public class ChatClient {
 			// 10. 자원 정리
 			try {
 				if (socket != null && !socket.isClosed()) {
+					
 					socket.close();
 				}
 				if (sc != null) {
