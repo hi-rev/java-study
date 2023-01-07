@@ -88,6 +88,8 @@ public class ChatServerThread extends Thread {
 		
 		// writer pool에 저장
 		addWriter(writer);
+		
+		pw.println("join:ok");
 	}
 	
 	// List인 listWriters에 파라미터로 받은 Writer를 추가한다.
