@@ -8,7 +8,6 @@ public class ChatClientApp {
 		Scanner scanner = new Scanner(System.in);
 
 		while( true ) {
-			
 			System.out.println("대화명을 입력하세요.");
 			System.out.print(">>> ");
 			name = scanner.nextLine();
@@ -22,18 +21,6 @@ public class ChatClientApp {
 		
 		scanner.close();
 		
-		// 1. create socket
-		
-		// 2. connect to server
-		
-		// 3. get iostream
-		
-		// 4. join protocol 진행
-		// String line = br.readLine();
-		String line = "JOIN:OK";
-		if ("JOIN:OK".equals(line)) {
-			new ChatWindow(name).show();
-		}
+		new ChatWindow(name).show();
 	}
-
 }

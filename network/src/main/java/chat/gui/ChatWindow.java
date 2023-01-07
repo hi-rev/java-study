@@ -20,13 +20,16 @@ public class ChatWindow {
 	private Button buttonSend;
 	private TextField textField;
 	private TextArea textArea;
+	private String name;
 
 	public ChatWindow(String name) {
+		this.name = name;
 		frame = new Frame(name);
 		pannel = new Panel();
 		buttonSend = new Button("Send");
 		textField = new TextField();
 		textArea = new TextArea(30, 80);
+		new ChatClientThread().start();;
 	}
 
 	public void show() {
@@ -80,21 +83,20 @@ public class ChatWindow {
 		});
 		frame.setVisible(true);
 		frame.pack();
-		
-		// IOStream 받아오기
-		// ChatClientThread 생성하고 실행
-		
 	}
 	
 	private void sendMessage() {
 		String message = textField.getText();
-		System.out.println("메세지 보내는 프로토콜 구현: " + message);
+		
+		if (message == "quit") {
+			finish();
+		}
 		
 		textField.setText(""); // 메세지창 비우기
 		textField.requestFocus(); // 메세지창 포커스
 		
 		// ChatClientThread 에서 서버로부터 받은 메세지가 있다 치고 
-		updateTextArea("마이콜: " + message);
+		updateTextArea(name + ":" + message);
 	}
 	
 	private void updateTextArea(String message) {
@@ -103,21 +105,15 @@ public class ChatWindow {
 	}
 	
 	private class ChatClientThread extends Thread {
-
 		@Override
 		public void run() {
 			// String message = br.readLine();
-			updateTextArea("안녕");
+			updateTextArea("즐거운 채팅 되세요!");
 		}
-		
 	}
 	
 	// frame 종료하기
 	private void finish() {
-		// quit protocol 구현 (명시적으로 프로토콜로 종료해주는 것이 좋음)
-		
-		// clean-up
-		
 		// exit java(Application)
 		System.exit(0);
 	}
