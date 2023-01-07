@@ -39,6 +39,7 @@ public class ChatWindow {
 		buttonSend = new Button("Send");
 		textField = new TextField();
 		textArea = new TextArea(30, 80);
+//		new ChatClientThread().start();
 	}
 
 	public void show() {
@@ -98,7 +99,7 @@ public class ChatWindow {
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"),true);
 			
-			// ChatClientThread run!
+			// ChatClientThread 생성하고 실행
 			new ChatClientThread().start();
 			
 		} catch (UnsupportedEncodingException e) {
